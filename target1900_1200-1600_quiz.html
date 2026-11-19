@@ -1,0 +1,631 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#f5f7fb">
+<title>ターゲット1900｜1200〜1600 4択クイズ</title>
+<style>
+:root{color-scheme:light dark;--bg:#f4f6fb;--card:#fff;--text:#182033;--muted:#687187;--line:#dce2ee;--accent:#3559d8;--accent2:#e9edff;--good:#16794b;--goodbg:#e5f7ed;--bad:#b42332;--badbg:#ffeaec;--shadow:0 8px 28px #24345b12}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#10141d;--card:#1b2230;--text:#edf1fa;--muted:#a5aec2;--line:#30394b;--accent:#9badff;--accent2:#293453;--good:#75e0a5;--goodbg:#193b2c;--bad:#ff9da6;--badbg:#48252c;--shadow:0 8px 28px #0003}}
+:root[data-theme="dark"]{color-scheme:dark;--bg:#10141d;--card:#1b2230;--text:#edf1fa;--muted:#a5aec2;--line:#30394b;--accent:#9badff;--accent2:#293453;--good:#75e0a5;--goodbg:#193b2c;--bad:#ff9da6;--badbg:#48252c;--shadow:0 8px 28px #0003}
+:root[data-theme="light"]{color-scheme:light;--bg:#f4f6fb;--card:#fff;--text:#182033;--muted:#687187;--line:#dce2ee;--accent:#3559d8;--accent2:#e9edff;--good:#16794b;--goodbg:#e5f7ed;--bad:#b42332;--badbg:#ffeaec;--shadow:0 8px 28px #24345b12}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;line-height:1.5;overflow-wrap:anywhere}
+main{width:min(760px,100%);margin:0 auto;padding:20px 14px 40px}.top{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:16px}h1{font-size:clamp(21px,5vw,29px);margin:0;letter-spacing:-.03em}.sub{color:var(--muted);font-size:13px;margin-top:3px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:20px;box-shadow:var(--shadow);margin-bottom:14px}
+.stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin-bottom:14px}.stat{background:var(--bg);border:1px solid var(--line);border-radius:13px;padding:10px 7px;text-align:center}.stat small{display:block;color:var(--muted);font-size:12px}.stat strong{font-size:20px;font-variant-numeric:tabular-nums}
+.mode{display:inline-flex;align-items:center;border-radius:999px;padding:5px 10px;background:var(--accent2);color:var(--accent);font-size:12px;font-weight:700;margin-bottom:12px}
+.qnum{font-size:13px;color:var(--muted);text-align:center}.word{font-size:clamp(32px,9vw,48px);font-weight:800;text-align:center;margin:8px 0 22px;letter-spacing:-.03em;min-height:1.35em}
+.choices{display:grid;grid-template-columns:1fr 1fr;gap:10px}.choice{min-height:62px;border:1px solid var(--line);background:var(--card);color:var(--text);border-radius:14px;padding:13px 12px;text-align:left;font-size:15px;font-weight:600;cursor:pointer;overflow-wrap:anywhere}.choice:focus-visible,button:focus-visible,textarea:focus-visible{outline:3px solid var(--accent);outline-offset:2px}.choice:disabled{cursor:default;opacity:1}.choice.correct{border-color:var(--good);background:var(--goodbg);color:var(--good)}.choice.wrong{border-color:var(--bad);background:var(--badbg);color:var(--bad)}
+.feedback{margin-top:14px;padding:12px 14px;border-radius:12px;background:var(--bg);display:none}.feedback.show{display:block}.feedback.good{background:var(--goodbg);color:var(--good)}.feedback.bad{background:var(--badbg);color:var(--bad)}
+.actions{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}button{font:inherit;font-weight:650;border:1px solid var(--line);border-radius:12px;background:var(--card);color:var(--text);padding:11px 14px;min-height:44px;cursor:pointer}button.primary{background:var(--accent);border-color:var(--accent);color:white}button:disabled{opacity:.45;cursor:not-allowed}.actions button{flex:1 1 130px}
+.section-title{font-size:17px;margin:0 0 10px}.small{font-size:13px;color:var(--muted)}.panel{display:none}.panel.open{display:block}.history-list{max-height:260px;overflow:auto;border:1px solid var(--line);border-radius:12px}.history-item{padding:10px 12px;border-bottom:1px solid var(--line)}.history-item:last-child{border-bottom:0}.history-item strong{display:block}.empty{padding:18px;text-align:center;color:var(--muted)}
+details{border:1px solid var(--line);border-radius:14px;padding:12px 14px;background:var(--card);margin-bottom:14px}summary{font-weight:700;cursor:pointer}textarea{width:100%;min-height:150px;margin-top:10px;border:1px solid var(--line);border-radius:12px;padding:12px;background:var(--bg);color:var(--text);font:13px/1.5 ui-monospace,SFMono-Regular,monospace} .notice{font-size:13px;color:var(--muted);margin:8px 0}.status{min-height:1.4em;font-size:13px;color:var(--muted);margin-top:8px}
+@media(max-width:420px){main{padding:14px 10px 30px}.card{padding:15px}.choices{grid-template-columns:1fr}.choice{min-height:54px}.word{margin-bottom:17px}.top{align-items:flex-start}}
+</style>
+</head>
+<body>
+<main>
+<header class="top"><div><h1>ターゲット1900 4択クイズ</h1><div class="sub">No.1200〜1600｜全401語・ランダム出題</div></div><button id="themeBtn" aria-label="表示テーマを切り替え">テーマ</button></header>
+<section class="stats" aria-label="学習状況">
+<div class="stat"><small>正解数</small><strong id="correctCount">0</strong></div>
+<div class="stat"><small>回答数</small><strong id="answeredCount">0</strong></div>
+<div class="stat"><small>正答率</small><strong id="accuracy">—</strong></div>
+</section>
+<section class="card" aria-live="polite">
+<div id="modeLabel" class="mode">通常モード</div>
+<div id="qnum" class="qnum">準備中…</div>
+<div id="word" class="word">英単語</div>
+<div id="choices" class="choices"></div>
+<div id="feedback" class="feedback"></div>
+<div class="actions">
+<button id="nextBtn" class="primary" hidden>次の問題</button>
+<button id="learnedBtn" hidden>覚えた！</button>
+</div>
+<div id="status" class="status" role="status"></div>
+</section>
+<section class="actions" aria-label="クイズ操作">
+<button id="reviewBtn">間違い復習</button>
+<button id="historyBtn">履歴を見る</button>
+<button id="shuffleBtn">新しくシャッフル</button>
+<button id="resetBtn">学習状況リセット</button>
+</section>
+<section id="historyPanel" class="card panel">
+<h2 class="section-title">学習履歴</h2>
+<div id="historyList" class="history-list"></div>
+<div class="actions"><button id="clearHistoryBtn">履歴を消去</button><button id="closeHistoryBtn">閉じる</button></div>
+</section>
+<section id="reviewPanel" class="card panel">
+<h2 class="section-title">間違い復習リスト</h2>
+<div id="reviewList" class="history-list"></div>
+<div class="actions"><button id="clearReviewBtn">復習リストを消去</button><button id="closeReviewBtn">閉じる</button></div>
+</section>
+<details>
+<summary>単語データを読み込む（自分の単語リスト用）</summary>
+<p class="notice">1行に1語、次の形式で入力してください：<code>番号,英単語,日本語訳</code>。例：<code>1200,inclined,傾向がある</code>。このクイズにはNo.1200〜1600の401語を収録しています。必要なら手元の単語リストで出題セットを置き換えられます。読み込むと現在の出題セットが置き換わります。</p>
+<textarea id="dataInput" spellcheck="false" placeholder="1200,inclined,傾向がある&#10;1201,infer,推論する&#10;1202,esteem,尊敬する"></textarea>
+<div class="actions"><button id="loadDataBtn" class="primary">データを読み込む</button><button id="demoBtn">1200〜1600に戻す</button></div>
+<div id="dataStatus" class="status" role="status"></div>
+</details>
+<p class="small">単語データはこのブラウザ内で処理されます。間違いリストと履歴は localStorage に保存します。保存機能が使えない環境でも、開いている間は可能な範囲で動作します。</p>
+</main>
+<script>
+"use strict";
+const DEMO = [
+ {id:1200,word:"inclined",meaning:"傾向がある；傾いた"},
+ {id:1201,word:"infer",meaning:"を推論する，推測する"},
+ {id:1202,word:"esteem",meaning:"を尊敬する；を見なす"},
+ {id:1203,word:"tackle",meaning:"に取り組む；と（～のことで）話をつける（about / on）"},
+ {id:1204,word:"venture",meaning:"危険を冒して進む；を思い切ってする"},
+ {id:1205,word:"accelerate",meaning:"を加速させる，促進する；加速する"},
+ {id:1206,word:"accustom",meaning:"（人）を慣れさせる"},
+ {id:1207,word:"amuse",meaning:"をおもしろがらせる，楽しませる"},
+ {id:1208,word:"flourish",meaning:"繁栄する；繁茂する；を振りかざす"},
+ {id:1209,word:"thrive",meaning:"繁栄する，うまくいく；繁茂する"},
+ {id:1210,word:"nurture",meaning:"をはぐくむ；を養成する"},
+ {id:1211,word:"click",meaning:"（を）クリックする；をカチッと鳴らす；カチッと音がする"},
+ {id:1212,word:"spin",meaning:"回転する；を回転させる；（糸）を紡ぐ"},
+ {id:1213,word:"clip",meaning:"を切り抜く；を（はさみで）切り取る；をクリップで留める"},
+ {id:1214,word:"drag",meaning:"を引きずる；ぐずぐずする"},
+ {id:1215,word:"cast",meaning:"を投じる；に役を当てる"},
+ {id:1216,word:"scatter",meaning:"をまき散らす；分散する"},
+ {id:1217,word:"tempt",meaning:"を（...する）気にさせる（to do）；を引きつける"},
+ {id:1218,word:"withdraw",meaning:"を引き出す；を撤回する；撤退する"},
+ {id:1219,word:"yawn",meaning:"あくびをする"},
+ {id:1220,word:"blink",meaning:"まばたきする；点滅する；（目）をまたたく"},
+ {id:1221,word:"dye",meaning:"を染める；染まる"},
+ {id:1222,word:"spill",meaning:"をこぼす；こぼれる"},
+ {id:1223,word:"irritate",meaning:"をいらいらさせる；をひりひりさせる"},
+ {id:1224,word:"insult",meaning:"を侮辱する（≒ affront）"},
+ {id:1225,word:"enforce",meaning:"を施行［実施］する；を（～に）強制する（on / upon）"},
+ {id:1226,word:"rob",meaning:"から（金品を）奪う"},
+ {id:1227,word:"drain",meaning:"（液体）を流出させる；（液体が）流れ出る"},
+ {id:1228,word:"suspend",meaning:"を停職［停学，出場停止］にする；を一時的に中断する"},
+ {id:1229,word:"drift",meaning:"漂う；さまよう；を押し流す"},
+ {id:1230,word:"forgive",meaning:"を許す；を免除する"},
+ {id:1231,word:"revise",meaning:"を修正する；を改訂する"},
+ {id:1232,word:"recruit",meaning:"を募る；に新人を補充する"},
+ {id:1233,word:"twist",meaning:"をねじる，ひねる；を歪曲する"},
+ {id:1234,word:"crush",meaning:"を押しつぶす；を弾圧する；を絞り出す"},
+ {id:1235,word:"pin",meaning:"をピンで留める；を突き刺す"},
+ {id:1236,word:"uncover",meaning:"を暴く（⇔ conceal ⇒ 1116）；を 発掘する"},
+ {id:1237,word:"exploit",meaning:"を活用する；を搾取する，につけ込む"},
+ {id:1238,word:"implement",meaning:"を実行［実施］する"},
+ {id:1239,word:"integrate",meaning:"を統合する；融合する"},
+ {id:1240,word:"incorporate",meaning:"を取り入れる；を法人にする；合併する"},
+ {id:1241,word:"profile",meaning:"人物の紹介；横顔；輪郭"},
+ {id:1242,word:"appetite",meaning:"食欲；欲求"},
+ {id:1243,word:"impulse",meaning:"衝動；刺激"},
+ {id:1244,word:"script",meaning:"台本；筆跡"},
+ {id:1245,word:"anniversary",meaning:"（～周年）記念日"},
+ {id:1246,word:"pension",meaning:"年金"},
+ {id:1247,word:"temper",meaning:"気質，気性；機嫌；かんしゃく"},
+ {id:1248,word:"cortex",meaning:"皮質；樹皮"},
+ {id:1249,word:"syndrome",meaning:"症候群；～現象"},
+ {id:1250,word:"chamber",meaning:"（特定の目的の）部屋；議場；〔the ～〕議院"},
+ {id:1251,word:"utility",meaning:"公共事業；公共料金；実用性"},
+ {id:1252,word:"cattle",meaning:"〔集合的に〕牛"},
+ {id:1253,word:"herd",meaning:"（牛などの）群れ；群衆"},
+ {id:1254,word:"fluid",meaning:"流動体，液体"},
+ {id:1255,word:"pity",meaning:"残念なこと；哀れみ"},
+ {id:1256,word:"priest",meaning:"聖職者"},
+ {id:1257,word:"acquaintance",meaning:"知人；面識；知識"},
+ {id:1258,word:"offspring",meaning:"子孫，子；成果"},
+ {id:1259,word:"famine",meaning:"飢饉；（食糧・物資の）ひどい不足"},
+ {id:1260,word:"deforestation",meaning:"森林伐採"},
+ {id:1261,word:"jail",meaning:"刑務所，拘置所（≒ prison）"},
+ {id:1262,word:"commodity",meaning:"商品；有用なもの"},
+ {id:1263,word:"format",meaning:"書式，形式；（本などの）型"},
+ {id:1264,word:"recipient",meaning:"受け取る人；（臓器などの）被提供者"},
+ {id:1265,word:"drill",meaning:"訓練；（反復）練習；ドリル，錐"},
+ {id:1266,word:"inability",meaning:"無能，無力"},
+ {id:1267,word:"republic",meaning:"共和国；共和制"},
+ {id:1268,word:"combat",meaning:"戦闘；対立"},
+ {id:1269,word:"debris",meaning:"（破壊された後の）残骸，瓦礫；がらくた"},
+ {id:1270,word:"bug",meaning:"病原菌（が起こす病気）；虫；盗聴器；（機械・プログラムの）欠陥"},
+ {id:1271,word:"fraction",meaning:"わずか（≒ bit），一部；分数"},
+ {id:1272,word:"index",meaning:"指標；索引；指数"},
+ {id:1273,word:"intuition",meaning:"直観（力），直感"},
+ {id:1274,word:"motive",meaning:"動機"},
+ {id:1275,word:"consent",meaning:"同意，承諾"},
+ {id:1276,word:"hierarchy",meaning:"（社会の）階層制；〔the ～〕支配層"},
+ {id:1277,word:"monument",meaning:"記念碑，遺跡；金字塔"},
+ {id:1278,word:"asset",meaning:"〔通例～s〕資産；価値のあるもの；利点"},
+ {id:1279,word:"decent",meaning:"まずまずの；きちんとした；上品な"},
+ {id:1280,word:"competent",meaning:"有能な；適任の；満足できる"},
+ {id:1281,word:"straightforward",meaning:"単純な；率直な"},
+ {id:1282,word:"cosmetic",meaning:"化粧の，美容の；うわべの"},
+ {id:1283,word:"delicate",meaning:"繊細な；扱いにくい；もろい"},
+ {id:1284,word:"interior",meaning:"室内の；内部の（⇔ exterior 外部の）"},
+ {id:1285,word:"transparent",meaning:"透明な；明快な"},
+ {id:1286,word:"aesthetic",meaning:"美的な；美学の"},
+ {id:1287,word:"deliberate",meaning:"故意の；慎重な"},
+ {id:1288,word:"demographic",meaning:"人口統計学の"},
+ {id:1289,word:"prehistoric",meaning:"有史以前の；旧式な"},
+ {id:1290,word:"innate",meaning:"生まれながらの；固有の"},
+ {id:1291,word:"mild",meaning:"穏やかな；（程度が）軽い"},
+ {id:1292,word:"toxic",meaning:"有毒な；中毒性の"},
+ {id:1293,word:"ashamed",meaning:"恥じて"},
+ {id:1294,word:"humble",meaning:"謙虚な；質素な；身分が低い"},
+ {id:1295,word:"peculiar",meaning:"特有の；特異な"},
+ {id:1296,word:"steep",meaning:"（傾斜が）急な；急激な；法外な"},
+ {id:1297,word:"trivial",meaning:"ささいな，取るに足りない"},
+ {id:1298,word:"magnificent",meaning:"壮大な；見事な"},
+ {id:1299,word:"wireless",meaning:"無線（電信）の，ラジオの"},
+ {id:1300,word:"ongoing",meaning:"継続している，進行中の"},
+ {id:1301,word:"assure",meaning:"に自信を持って言う；を保証する"},
+ {id:1302,word:"precede",meaning:"に先行する；に優先する"},
+ {id:1303,word:"revive",meaning:"を復活させる；復活する"},
+ {id:1304,word:"compel",meaning:"に強いる"},
+ {id:1305,word:"blossom",meaning:"花が咲く（≒ bloom）；発展する"},
+ {id:1306,word:"terrify",meaning:"を怖がらせる；を脅かす"},
+ {id:1307,word:"violate",meaning:"（法律・規則など）に違反する；を侵害する"},
+ {id:1308,word:"suppress",meaning:"を抑える；を抑圧する"},
+ {id:1309,word:"deceive",meaning:"をだます（≒ take in）"},
+ {id:1310,word:"manipulate",meaning:"を（巧みに）操る；を改ざんする"},
+ {id:1311,word:"starve",meaning:"飢える；（～を）渇望する（for）；を飢えさせる"},
+ {id:1312,word:"flee",meaning:"（から）逃げる"},
+ {id:1313,word:"whisper",meaning:"（を）ささやく"},
+ {id:1314,word:"yell",meaning:"叫ぶ，どなる"},
+ {id:1315,word:"deposit",meaning:"を置く；を預ける；を堆積させる"},
+ {id:1316,word:"confine",meaning:"を限定する；〔通例受身形で〕閉じ込められる"},
+ {id:1317,word:"swing",meaning:"を揺らす，振る；揺れる；（行動に）さっと移る"},
+ {id:1318,word:"prolong",meaning:"を長引かせる"},
+ {id:1319,word:"depict",meaning:"を描く"},
+ {id:1320,word:"outline",meaning:"の要点を述べる；の輪郭を描く"},
+ {id:1321,word:"shed",meaning:"を捨て去る；（光など）を放つ；（涙・血）を流す"},
+ {id:1322,word:"emit",meaning:"（光・熱など）を出す，排出する；（信号）を送る"},
+ {id:1323,word:"renew",meaning:"を更新する；（資源）を再生する"},
+ {id:1324,word:"utilize",meaning:"を利用する（≒ make use of）"},
+ {id:1325,word:"assert",meaning:"を主張する"},
+ {id:1326,word:"strain",meaning:"に負担をかける；を緊張させる；を漉す"},
+ {id:1327,word:"strive",meaning:"努力する；争う"},
+ {id:1328,word:"dare",meaning:"あえて［思い切って］...する"},
+ {id:1329,word:"boast",meaning:"を誇る；（を）自慢する"},
+ {id:1330,word:"startle",meaning:"をびっくりさせる（≒ surprise）"},
+ {id:1331,word:"offend",meaning:"の気分を害する；（に）違反する"},
+ {id:1332,word:"compute",meaning:"（を）計算する；コンピューターを使う"},
+ {id:1333,word:"assemble",meaning:"を集める；を組み立てる；集まる"},
+ {id:1334,word:"worsen",meaning:"を悪化させる；悪化する（≒ deteriorate）"},
+ {id:1335,word:"flip",meaning:"を（ぱっと）裏返す；を軽くはじく"},
+ {id:1336,word:"rub",meaning:"（を）こする；（～に）を塗る（on / over）"},
+ {id:1337,word:"descend",meaning:"（を）降りる（⇔ ascend ⇒ 1839）；受け継がれる"},
+ {id:1338,word:"compensate",meaning:"補償する（≒ make up）；に償う"},
+ {id:1339,word:"comprise",meaning:"から成る；を構成する"},
+ {id:1340,word:"prevail",meaning:"普及している；支配的である；（～に）打ち勝つ（over）"},
+ {id:1341,word:"quest",meaning:"探究"},
+ {id:1342,word:"dignity",meaning:"尊厳；威厳"},
+ {id:1343,word:"criterion",meaning:"（判断・評価の）基準"},
+ {id:1344,word:"paradox",meaning:"逆説；矛盾"},
+ {id:1345,word:"parliament",meaning:"（英国などの）議会；国会議員（団）"},
+ {id:1346,word:"legislation",meaning:"法律；立法"},
+ {id:1347,word:"agenda",meaning:"協議事項（リスト）；議事日程（表）；（政治上の）課題"},
+ {id:1348,word:"mainstream",meaning:"（活動・思潮などの）主流；大勢"},
+ {id:1349,word:"troop",meaning:"〔～s〕軍隊；集団"},
+ {id:1350,word:"epidemic",meaning:"流行（病）；蔓延"},
+ {id:1351,word:"outbreak",meaning:"発生，勃発"},
+ {id:1352,word:"chaos",meaning:"混沌，大混乱"},
+ {id:1353,word:"nightmare",meaning:"悪夢（のような状況）；不安感"},
+ {id:1354,word:"horror",meaning:"恐怖；強い嫌悪；嫌な物［人］"},
+ {id:1355,word:"cluster",meaning:"集団；（植物の）房，束"},
+ {id:1356,word:"pollen",meaning:"花粉"},
+ {id:1357,word:"hive",meaning:"ミツバチの巣（箱）；人の集まる所"},
+ {id:1358,word:"irrigation",meaning:"灌漑"},
+ {id:1359,word:"dose",meaning:"（薬の1回分の）服用量；放射線の1回の照射量"},
+ {id:1360,word:"suicide",meaning:"自殺；自殺的行為"},
+ {id:1361,word:"feast",meaning:"祝宴；大ごちそう；楽しみ"},
+ {id:1362,word:"cuisine",meaning:"（独特の）料理，料理法"},
+ {id:1363,word:"rumor",meaning:"うわさ"},
+ {id:1364,word:"proverb",meaning:"ことわざ（≒ saying）"},
+ {id:1365,word:"signature",meaning:"署名；特徴"},
+ {id:1366,word:"formula",meaning:"方法，解決策；公式"},
+ {id:1367,word:"tuition",meaning:"【主に米】 授業料（＝ 【英】tuition fees）；（個人）指導"},
+ {id:1368,word:"intake",meaning:"摂取量；受け入れ数；取り入れること"},
+ {id:1369,word:"spectrum",meaning:"スペクトル；（波動・変動の）範囲"},
+ {id:1370,word:"kidney",meaning:"腎臓"},
+ {id:1371,word:"gear",meaning:"用具（一式），器具；歯車；ギア"},
+ {id:1372,word:"aisle",meaning:"（座席間などの）通路"},
+ {id:1373,word:"grief",meaning:"深い悲しみ"},
+ {id:1374,word:"destiny",meaning:"運命"},
+ {id:1375,word:"skull",meaning:"頭骨，頭蓋骨；頭脳"},
+ {id:1376,word:"tomb",meaning:"墓"},
+ {id:1377,word:"monk",meaning:"修道士，僧（⇔ nun 修道女，尼）"},
+ {id:1378,word:"worship",meaning:"崇拝，礼拝（式）；賛美"},
+ {id:1379,word:"outstanding",meaning:"際立った；未払いの；未解決の"},
+ {id:1380,word:"unprecedented",meaning:"前例のない；空前の"},
+ {id:1381,word:"infinite",meaning:"無限の（⇔ finite 有限の）；無数の"},
+ {id:1382,word:"worthwhile",meaning:"価値がある；立派な"},
+ {id:1383,word:"indispensable",meaning:"不可欠な（⇔ dispensable なくてもすむ）"},
+ {id:1384,word:"compulsory",meaning:"義務的な，強制的な（⇔ voluntary ⇒ 1199）"},
+ {id:1385,word:"probable",meaning:"十分にありそうな"},
+ {id:1386,word:"ambiguous",meaning:"あいまいな；多義的な"},
+ {id:1387,word:"obscure",meaning:"（世に）知られていない；不明瞭な"},
+ {id:1388,word:"skeptical",meaning:"（～に）懐疑的な（of ⇒ about）"},
+ {id:1389,word:"fragile",meaning:"壊れやすい；虚弱な"},
+ {id:1390,word:"static",meaning:"静的な（⇔ dynamic ⇒ 1083）；動きのない"},
+ {id:1391,word:"gradual",meaning:"徐々の，緩やかな"},
+ {id:1392,word:"vocal",meaning:"声の，発声の；はっきりものを言う"},
+ {id:1393,word:"vivid",meaning:"鮮やかな；生き生きとした"},
+ {id:1394,word:"imperial",meaning:"帝国の；皇帝の"},
+ {id:1395,word:"hostile",meaning:"敵意のある（⇔friendly 友好的な）"},
+ {id:1396,word:"superficial",meaning:"表面的な"},
+ {id:1397,word:"scarce",meaning:"乏しい；珍しい"},
+ {id:1398,word:"gross",meaning:"総計の；甚だしい；粗野な"},
+ {id:1399,word:"inherent",meaning:"生来の，本来的に備わっている"},
+ {id:1400,word:"notable",meaning:"注目に値する；著名な"},
+ {id:1401,word:"update",meaning:"を最新のものにする；をアップデートする"},
+ {id:1402,word:"refresh",meaning:"（気分）をさわやかにする；（記憶など）を新たにする；を最新のものにする"},
+ {id:1403,word:"bloom",meaning:"花が咲く；栄える"},
+ {id:1404,word:"conquer",meaning:"を征服する；を克服する"},
+ {id:1405,word:"induce",meaning:"を引き起こす；を説得する"},
+ {id:1406,word:"attain",meaning:"を獲得する，達成する；に達する"},
+ {id:1407,word:"spray",meaning:"を吹きかける，に吹きつける"},
+ {id:1408,word:"retrieve",meaning:"（情報）を検索する；を取り戻す；を回復する"},
+ {id:1409,word:"portray",meaning:"を描く；（の役）を演じる"},
+ {id:1410,word:"scratch",meaning:"を引っかく；を取り消す，削除する"},
+ {id:1411,word:"designate",meaning:"を指定する；を任命する"},
+ {id:1412,word:"contradict",meaning:"と矛盾する；に反対意見を言う"},
+ {id:1413,word:"sigh",meaning:"ため息をつく"},
+ {id:1414,word:"disrupt",meaning:"を混乱させる；を分裂させる"},
+ {id:1415,word:"depart",meaning:"出発する；（～から）それる（from）"},
+ {id:1416,word:"navigate",meaning:"（を）誘導する；（を）操縦する；（を）航行する"},
+ {id:1417,word:"beg",meaning:"に（～を）切に頼む（for）；（を）懇願する"},
+ {id:1418,word:"inhabit",meaning:"に住んでいる；に宿る，存する"},
+ {id:1419,word:"diagnose",meaning:"（を）診断する"},
+ {id:1420,word:"comprehend",meaning:"を理解する"},
+ {id:1421,word:"oblige",meaning:"に義務づける；に恩恵を施す"},
+ {id:1422,word:"cram",meaning:"に詰め込む；詰め込み勉強をする"},
+ {id:1423,word:"flock",meaning:"群がる，集まる"},
+ {id:1424,word:"underestimate",meaning:"（を）過小評価する（⇔ overestimate （を）過大評価する）；（を）軽く見る；を少なく見積もる"},
+ {id:1425,word:"clarify",meaning:"を明確にする"},
+ {id:1426,word:"spark",meaning:"を引き起こす；を刺激する；スパークする"},
+ {id:1427,word:"seize",meaning:"をつかむ；を奪い取る；を没収する"},
+ {id:1428,word:"soar",meaning:"急上昇する；空高く飛ぶ"},
+ {id:1429,word:"glow",meaning:"光り［照り］輝く；赤く燃える；紅潮する"},
+ {id:1430,word:"disguise",meaning:"を（～に）変装させる（as）；を偽る"},
+ {id:1431,word:"distort",meaning:"を歪める；歪む"},
+ {id:1432,word:"undermine",meaning:"を徐々にむしばむ；を侵食する"},
+ {id:1433,word:"abolish",meaning:"を廃止する（≒ do away with）"},
+ {id:1434,word:"strip",meaning:"を［から］取り去る；を裸にする"},
+ {id:1435,word:"dispose",meaning:"〔dispose ofで〕を処分する；を（...する）気にさせる（to do）；を配置する"},
+ {id:1436,word:"dump",meaning:"を投棄する；をどさっと落とす"},
+ {id:1437,word:"weave",meaning:"を織る；（計画・物語など）を作り上げる"},
+ {id:1438,word:"refine",meaning:"を洗練する；を精製する"},
+ {id:1439,word:"enrich",meaning:"を豊かにする；（物質）を濃縮化する"},
+ {id:1440,word:"coordinate",meaning:"を調整する；を組織する；（服など）をコーディネートする"},
+ {id:1441,word:"headline",meaning:"（新聞などの）見出し"},
+ {id:1442,word:"internship",meaning:"【米】 実務［医学］研修；研修期間"},
+ {id:1443,word:"outlet",meaning:"直売店，特売店；はけ口；【米】（電気の）コンセント（≒ 【英】socket）"},
+ {id:1444,word:"remedy",meaning:"治療（法）；治療薬；解決法"},
+ {id:1445,word:"pill",meaning:"錠剤，丸薬；〔the ～〕ピル，経口避妊薬"},
+ {id:1446,word:"reception",meaning:"反応；宴会；受付；受信（状態）"},
+ {id:1447,word:"transaction",meaning:"（商）取引；（人と人との）交流"},
+ {id:1448,word:"mutation",meaning:"突然変異（体）；変化"},
+ {id:1449,word:"dairy",meaning:"〔集合的に〕乳製品；乳製品加工所［販売者］"},
+ {id:1450,word:"compassion",meaning:"同情"},
+ {id:1451,word:"posture",meaning:"姿勢；心構え"},
+ {id:1452,word:"curse",meaning:"悪態，ののしりの言葉；呪い；〔通例a ～〕災い"},
+ {id:1453,word:"funeral",meaning:"葬式"},
+ {id:1454,word:"census",meaning:"国勢調査；交通調査"},
+ {id:1455,word:"encyclopedia",meaning:"百科事典"},
+ {id:1456,word:"cereal",meaning:"〔通例～s〕穀物；シリアル（穀物加工食品）"},
+ {id:1457,word:"fragment",meaning:"断片"},
+ {id:1458,word:"patch",meaning:"（～の）部分，斑点；継ぎ；貼り薬"},
+ {id:1459,word:"rubbish",meaning:"【英】 ごみ（≒ 【米】garbage）；つまらないもの"},
+ {id:1460,word:"maze",meaning:"迷路（≒ labyrinth）；複雑に込み入ったもの"},
+ {id:1461,word:"outlook",meaning:"見解；見通し；眺め"},
+ {id:1462,word:"breakthrough",meaning:"大発見，飛躍的進歩"},
+ {id:1463,word:"triumph",meaning:"勝利；勝利の喜び；偉業"},
+ {id:1464,word:"ally",meaning:"同盟国；提携者；援助者；盟友"},
+ {id:1465,word:"spectator",meaning:"（試合などの）観客"},
+ {id:1466,word:"sphere",meaning:"領域；球体；天体"},
+ {id:1467,word:"county",meaning:"【米】 郡；【英】州"},
+ {id:1468,word:"behalf",meaning:"利益，味方"},
+ {id:1469,word:"interval",meaning:"（時間の）間隔；合間；隔たり；小休止"},
+ {id:1470,word:"circulation",meaning:"循環；流通；（新聞・雑誌の）発行部数"},
+ {id:1471,word:"blade",meaning:"刃；（プロペラなどの）羽根；（草などの）葉"},
+ {id:1472,word:"theft",meaning:"窃盗（罪）"},
+ {id:1473,word:"vacuum",meaning:"真空；空虚"},
+ {id:1474,word:"collision",meaning:"衝突；対立"},
+ {id:1475,word:"bargain",meaning:"買い得品；取引；契約"},
+ {id:1476,word:"landmark",meaning:"（ある場所の）目印；画期的な出来事"},
+ {id:1477,word:"revenue",meaning:"歳入（⇔ expenditure 歳出）；収益"},
+ {id:1478,word:"treaty",meaning:"（国家間の）条約；協定"},
+ {id:1479,word:"supreme",meaning:"最高の"},
+ {id:1480,word:"thorough",meaning:"徹底的な；まったくの"},
+ {id:1481,word:"naked",meaning:"裸の"},
+ {id:1482,word:"sincere",meaning:"心からの；誠実な"},
+ {id:1483,word:"tame",meaning:"飼いならされた，人に慣れた；退屈な"},
+ {id:1484,word:"insufficient",meaning:"不十分な；不適当な"},
+ {id:1485,word:"dim",meaning:"薄暗い；ぼんやりした"},
+ {id:1486,word:"acute",meaning:"（痛み・感情などが）激しい；（知覚などが）鋭い；急性の（⇔ chronic ⇒ 1198）"},
+ {id:1487,word:"disabled",meaning:"障害のある；障害者用の"},
+ {id:1488,word:"metropolitan",meaning:"大都市の，首都圏の"},
+ {id:1489,word:"monetary",meaning:"金銭的な；金融の"},
+ {id:1490,word:"alternate",meaning:"代わりの（≒ alternative）；交互の"},
+ {id:1491,word:"partial",meaning:"部分的な；不公平な（⇔impartial 公平な）"},
+ {id:1492,word:"divine",meaning:"神の；神にささげる"},
+ {id:1493,word:"drastic",meaning:"徹底的な，抜本的な；極端な"},
+ {id:1494,word:"fierce",meaning:"猛烈な；どう猛な"},
+ {id:1495,word:"sole",meaning:"唯一の；単独の；独占的な"},
+ {id:1496,word:"spontaneous",meaning:"自然発生的な；自発的な"},
+ {id:1497,word:"spatial",meaning:"空間の"},
+ {id:1498,word:"neat",meaning:"きちんとした；見事な"},
+ {id:1499,word:"tidy",meaning:"きちんとした，整頓された；相当の"},
+ {id:1500,word:"loyal",meaning:"（～に）忠実な（to）；誠実な"},
+ {id:1501,word:"bless",meaning:"に恩恵を与える；に感謝する"},
+ {id:1502,word:"regain",meaning:"を取り戻す"},
+ {id:1503,word:"conform",meaning:"順応する；一致する"},
+ {id:1504,word:"enroll",meaning:"登録する，入会する；を登録させる"},
+ {id:1505,word:"entitle",meaning:"に権利を与える；に題名をつける"},
+ {id:1506,word:"halt",meaning:"を止める；止まる"},
+ {id:1507,word:"provoke",meaning:"（感情・行動など）を引き起こす；を挑発する"},
+ {id:1508,word:"invade",meaning:"を侵略する；を侵害する；（場所）に殺到する"},
+ {id:1509,word:"squeeze",meaning:"押し入る；を押し込む；（を）搾る；（を）強く押す"},
+ {id:1510,word:"crawl",meaning:"はう；ゆっくり進む"},
+ {id:1511,word:"digest",meaning:"を消化する；を理解する；を要約する"},
+ {id:1512,word:"utter",meaning:"（声）を発する；（考えなど）を述べる"},
+ {id:1513,word:"refrain",meaning:"控える"},
+ {id:1514,word:"populate",meaning:"に住む，の住民である；に人を住まわせる"},
+ {id:1515,word:"accommodate",meaning:"を収容する；を（～に）適応させる（to）"},
+ {id:1516,word:"steer",meaning:"（を）操縦する；を（～へ）向ける（to）"},
+ {id:1517,word:"drown",meaning:"溺死する；を水浸しにする"},
+ {id:1518,word:"dip",meaning:"を浸す；（手など）を（～に）突っ込む（into / in）；下がる"},
+ {id:1519,word:"soak",meaning:"を浸す；をずぶぬれにする；浸る"},
+ {id:1520,word:"stir",meaning:"をかき回す；を揺り動かす"},
+ {id:1521,word:"transplant",meaning:"を移植する；を移住させる"},
+ {id:1522,word:"reassure",meaning:"を安心させる"},
+ {id:1523,word:"resume",meaning:"（を）再開する；を取り戻す"},
+ {id:1524,word:"speculate",meaning:"（と）推測する；投機する"},
+ {id:1525,word:"surpass",meaning:"を上回る"},
+ {id:1526,word:"appoint",meaning:"を任命する；（日時・場所など）を指定する"},
+ {id:1527,word:"intrigue",meaning:"に興味を持たせる；陰謀を企てる"},
+ {id:1528,word:"decay",meaning:"腐敗する（≒ rot）；（徐々に）衰える"},
+ {id:1529,word:"contaminate",meaning:"を汚染する；を堕落させる"},
+ {id:1530,word:"swell",meaning:"膨張する，腫れる；を膨らませる"},
+ {id:1531,word:"delete",meaning:"を削除する，消す"},
+ {id:1532,word:"tolerate",meaning:"を許容する，我慢する（≒ put up with）"},
+ {id:1533,word:"envy",meaning:"をうらやむ"},
+ {id:1534,word:"pray",meaning:"（を）祈る"},
+ {id:1535,word:"confess",meaning:"（を）告白する"},
+ {id:1536,word:"resign",meaning:"（を）辞任する；を放棄する"},
+ {id:1537,word:"dissolve",meaning:"（を）溶かす；（議会など）を解散する；（契約など）を解消する；溶ける"},
+ {id:1538,word:"unfold",meaning:"（閉じたもの）を開く；を明らかにする；開く；明らかになる"},
+ {id:1539,word:"awaken",meaning:"を目覚めさせる；（～から）覚める（from）"},
+ {id:1540,word:"conceive",meaning:"（を）思いつく；と想像する；（を）妊娠する"},
+ {id:1541,word:"entrepreneur",meaning:"起業家，事業家"},
+ {id:1542,word:"stake",meaning:"利害関係；〔通例～s〕賭け金；杭"},
+ {id:1543,word:"surplus",meaning:"余剰（⇔ shortage 不足），過剰；黒字"},
+ {id:1544,word:"inflation",meaning:"インフレ（ーション）；（物価の）高騰"},
+ {id:1545,word:"sweatshop",meaning:"搾取工場"},
+ {id:1546,word:"clash",meaning:"衝突；対立；かち合うこと；ガチャンという音"},
+ {id:1547,word:"sociology",meaning:"社会学"},
+ {id:1548,word:"ideology",meaning:"イデオロギー，思想傾向"},
+ {id:1549,word:"margin",meaning:"余白；差；利ざや"},
+ {id:1550,word:"realm",meaning:"領域；領土"},
+ {id:1551,word:"domain",meaning:"分野；領域；ドメイン（＝ domain name）"},
+ {id:1552,word:"algorithm",meaning:"アルゴリズム；問題解決の手順"},
+ {id:1553,word:"prairie",meaning:"大草原"},
+ {id:1554,word:"frontier",meaning:"〔通例the ～s〕最先端；〔the ～〕 【米】辺境地；国境"},
+ {id:1555,word:"bullet",meaning:"銃弾"},
+ {id:1556,word:"shield",meaning:"盾，防御物"},
+ {id:1557,word:"despair",meaning:"絶望"},
+ {id:1558,word:"radiation",meaning:"放射能，放射線"},
+ {id:1559,word:"placebo",meaning:"偽薬，プラシーボ；気休め"},
+ {id:1560,word:"nursery",meaning:"託児所；苗床"},
+ {id:1561,word:"spouse",meaning:"配偶者"},
+ {id:1562,word:"makeup",meaning:"化粧；化粧品；構成；性質"},
+ {id:1563,word:"mummy",meaning:"ミイラ；【英】ママ，お母さん（＝ 【米】mommy）"},
+ {id:1564,word:"flesh",meaning:"（人・動物の）肉；果肉"},
+ {id:1565,word:"limb",meaning:"手足"},
+ {id:1566,word:"odor",meaning:"におい；気配"},
+ {id:1567,word:"laundry",meaning:"洗濯（物）；クリーニング店"},
+ {id:1568,word:"tide",meaning:"潮（の干満）；動向"},
+ {id:1569,word:"questionnaire",meaning:"アンケート"},
+ {id:1570,word:"nonsense",meaning:"ばかげた物［話，考え］；無意味な言葉"},
+ {id:1571,word:"revenge",meaning:"復讐"},
+ {id:1572,word:"intellect",meaning:"知性；〔the ～（s）〕知識人"},
+ {id:1573,word:"hospitality",meaning:"親切なもてなし，歓待；受容性"},
+ {id:1574,word:"librarian",meaning:"司書，図書館員"},
+ {id:1575,word:"manuscript",meaning:"（手書きの）原稿；写本"},
+ {id:1576,word:"obsession",meaning:"（考えなどに）取りつかれること；妄想；強迫観念"},
+ {id:1577,word:"hygiene",meaning:"衛生（状態）；健康法"},
+ {id:1578,word:"paradigm",meaning:"理論的枠組み，パラダイム；模範"},
+ {id:1579,word:"legitimate",meaning:"合法的な；妥当な"},
+ {id:1580,word:"authentic",meaning:"本物の；信頼できる"},
+ {id:1581,word:"empirical",meaning:"経験的な；経験主義の"},
+ {id:1582,word:"immense",meaning:"膨大な"},
+ {id:1583,word:"absurd",meaning:"ばかげた；不合理な"},
+ {id:1584,word:"weird",meaning:"異様な（≒ bizarre），奇妙な"},
+ {id:1585,word:"accidental",meaning:"偶然の；過失による"},
+ {id:1586,word:"uneasy",meaning:"不安な；落ち着かない；ぎこちない"},
+ {id:1587,word:"jealous",meaning:"嫉妬深い；用心深い"},
+ {id:1588,word:"feminine",meaning:"女らしい（⇔ masculine ⇒ 1681）"},
+ {id:1589,word:"swift",meaning:"素早い"},
+ {id:1590,word:"hollow",meaning:"空洞の；空虚な；うわべだけの"},
+ {id:1591,word:"crude",meaning:"大まかな；粗野な；未精製の"},
+ {id:1592,word:"sore",meaning:"痛い；腹が立って"},
+ {id:1593,word:"pessimistic",meaning:"悲観的な（⇔ optimistic ⇒ 882）"},
+ {id:1594,word:"vain",meaning:"無駄な；うぬぼれた"},
+ {id:1595,word:"susceptible",meaning:"（～の）影響を受けやすい（to）；感染しやすい"},
+ {id:1596,word:"edible",meaning:"食用の，食べられる"},
+ {id:1597,word:"sheer",meaning:"純然たる，真の；すごい；（布が）薄地の"},
+ {id:1598,word:"explicit",meaning:"明白な（⇔ implicit ⇒ 1795）；率直な"},
+ {id:1599,word:"prone",meaning:"（～に）なりやすい（to）；（...する）傾向がある（to do）"},
+ {id:1600,word:"affluent",meaning:"裕福な；豊富な"}
+];
+const $ = id => document.getElementById(id);
+const KEYS={mistakes:"target1900_1200_1600_mistakes_v1",history:"target1900_1200_1600_history_v1",custom:"target1900_1200_1600_custom_v1"};
+let words=DEMO.slice(), order=[], orderPos=0, current=null, answered=false, reviewMode=false, reviewQueue=[], reviewPos=0;
+let correct=0, answeredTotal=0, history=[], mistakes=new Set(), storageOK=true;
+function readJSON(key,fallback,validator){
+ try{const raw=localStorage.getItem(key);if(raw===null)return fallback;const parsed=JSON.parse(raw);return validator(parsed)?parsed:fallback}
+ catch(e){storageOK=false;return fallback}
+}
+function save(key,value){try{localStorage.setItem(key,JSON.stringify(value))}catch(e){storageOK=false;setStatus("保存できませんでした。この画面を開いている間は学習を続けられます。")}}
+function validIds(a){return Array.isArray(a)&&a.every(x=>Number.isInteger(x)&&x>0)}
+function validHistory(a){return Array.isArray(a)&&a.every(x=>x&&Number.isInteger(x.id)&&x.id>0&&typeof x.word==="string"&&typeof x.meaning==="string")}
+function loadSaved(){
+ mistakes=new Set(readJSON(KEYS.mistakes,[],validIds));
+ history=readJSON(KEYS.history,[],validHistory);
+ const custom=readJSON(KEYS.custom,null,a=>Array.isArray(a)&&a.length>0&&a.every(w=>w&&Number.isInteger(w.id)&&typeof w.word==="string"&&typeof w.meaning==="string"));
+ if(custom){words=custom}
+}
+function persistMistakes(){save(KEYS.mistakes,[...mistakes])}
+function persistHistory(){save(KEYS.history,history)}
+function setStatus(s=""){ $("status").textContent=s }
+function shuffle(a){const b=a.slice();for(let i=b.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[b[i],b[j]]=[b[j],b[i]]}return b}
+function shuffleCycle(){order=shuffle(words.map(w=>w.id));orderPos=0}
+function getWord(id){return words.find(w=>w.id===id)}
+function updateStats(){$("correctCount").textContent=correct;$("answeredCount").textContent=answeredTotal;$("accuracy").textContent=answeredTotal?Math.round(correct/answeredTotal*100)+"%":"—"}
+function uniqueMeanings(){return [...new Set(words.map(w=>w.meaning))]}
+function makeChoices(w){
+ const pool=words.filter(x=>x.id!==w.id&&x.meaning!==w.meaning);
+ const byMeaning=[...new Map(shuffle(pool).map(x=>[x.meaning,x])).values()];
+ const chosen=byMeaning.slice(0,3);
+ const options=shuffle([w,...chosen]);
+ return options;
+}
+function showEmpty(title,msg){current=null;answered=false;$("qnum").textContent=title;$("word").textContent="—";$("choices").replaceChildren();$("feedback").className="feedback";$("feedback").textContent="";$("nextBtn").hidden=true;$("learnedBtn").hidden=false;$("learnedBtn").disabled=true;setStatus(msg)}
+function nextQuestion(){
+ answered=false;$("learnedBtn").hidden=true;$("learnedBtn").disabled=false;$("nextBtn").hidden=true;$("feedback").className="feedback";$("feedback").textContent="";setStatus("");
+ if(!words.length){showEmpty("単語データがありません","下の「単語データを読み込む」から単語を追加してください。");return}
+ if(reviewMode){
+   reviewQueue=reviewQueue.filter(id=>mistakes.has(id)&&getWord(id));
+   if(!reviewQueue.length){showEmpty("復習完了！","復習リストに残っている単語はありません。通常モードに戻るには「新しくシャッフル」を押してください。");$("modeLabel").textContent="復習モード";renderReviewList();return}
+   if(reviewPos>=reviewQueue.length)reviewPos=0;
+   current=getWord(reviewQueue[reviewPos]);
+   $("modeLabel").textContent="間違い復習";
+   $("qnum").textContent=`復習 ${reviewPos+1} / ${reviewQueue.length}　・　単語番号 ${current.id}`;
+ }else{
+   if(!order.length||orderPos>=order.length)shuffleCycle();
+   current=getWord(order[orderPos++]);
+   if(!current){shuffleCycle();current=getWord(order[orderPos++])}
+   $("modeLabel").textContent="通常モード";
+   $("qnum").textContent=`出題 ${orderPos} / ${words.length}　・　単語番号 ${current.id}`;
+ }
+ $("word").textContent=current.word;
+ const opts=makeChoices(current);
+ const box=$("choices");box.replaceChildren();
+ if(opts.length<4){setStatus("4択にするには、異なる日本語訳を持つ単語が4語以上必要です。");}
+ opts.forEach(opt=>{
+   const b=document.createElement("button");b.className="choice";b.textContent=opt.meaning;b.addEventListener("click",()=>answer(opt,b));box.appendChild(b);
+ });
+ updateStats();
+}
+function answer(opt,button){
+ if(answered||!current)return;
+ answered=true;answeredTotal++;
+ const isCorrect=opt.id===current.id;
+ if(isCorrect){correct++;$("feedback").textContent="正解！";$("feedback").className="feedback show good"}
+ else{$("feedback").textContent=`不正解。正解：${current.meaning}`;$("feedback").className="feedback show bad";mistakes.add(current.id);persistMistakes()}
+ [...$("choices").querySelectorAll("button")].forEach(b=>{
+   b.disabled=true;
+   const meaning=b.textContent;
+   if(meaning===current.meaning)b.classList.add("correct");
+   else if(b===button&&!isCorrect)b.classList.add("wrong");
+ });
+ if(!history.some(x=>x.id===current.id)){history.unshift({id:current.id,word:current.word,meaning:current.meaning});persistHistory()}
+ $("nextBtn").hidden=false;
+ if(reviewMode){$("learnedBtn").hidden=false;$("learnedBtn").disabled=!mistakes.has(current.id)}
+ updateStats();renderHistory();renderReviewList();
+}
+function startReview(){
+ const ids=[...mistakes].filter(id=>getWord(id));
+ if(!ids.length){reviewMode=false;$("modeLabel").textContent="通常モード";setStatus("復習リストは空です。間違えた単語がここに追加されます。");return}
+ reviewMode=true;reviewQueue=shuffle(ids);reviewPos=0;$("historyPanel").classList.remove("open");nextQuestion();
+}
+function learned(){
+ if(!reviewMode||!current)return;
+ mistakes.delete(current.id);persistMistakes();
+ reviewQueue=reviewQueue.filter(id=>id!==current.id);
+ if(reviewPos>=reviewQueue.length)reviewPos=0;
+ renderReviewList();nextQuestion();
+}
+function renderHistory(){
+ const list=$("historyList");list.replaceChildren();
+ if(!history.length){list.innerHTML='<div class="empty">まだ単語がありません</div>';return}
+ history.forEach(x=>{const d=document.createElement("div");d.className="history-item";const strong=document.createElement("strong");strong.textContent=`${x.id}　${x.word}`;const span=document.createElement("span");span.textContent=x.meaning;d.append(strong,span);list.appendChild(d)})
+}
+function renderReviewList(){
+ const list=$("reviewList");list.replaceChildren();const items=[...mistakes].map(getWord).filter(Boolean);
+ if(!items.length){list.innerHTML='<div class="empty">復習リストは空です</div>';return}
+ items.forEach(w=>{const d=document.createElement("div");d.className="history-item";const strong=document.createElement("strong");strong.textContent=`${w.id}　${w.word}`;const span=document.createElement("span");span.textContent=w.meaning;d.append(strong,span);list.appendChild(d)})
+}
+function resetStats(){correct=0;answeredTotal=0;updateStats();reviewMode=false;reviewQueue=[];reviewPos=0;shuffleCycle();nextQuestion();setStatus("学習状況をリセットしました。履歴と間違いリストは保持しています。")}
+function newShuffle(){reviewMode=false;reviewQueue=[];reviewPos=0;shuffleCycle();nextQuestion();setStatus("問題順をシャッフルしました。")}
+function parseData(raw){
+ const lines=raw.split(/\r?\n/).map(s=>s.trim()).filter(Boolean);const parsed=[];const ids=new Set();
+ for(let i=0;i<lines.length;i++){
+   const parts=lines[i].split(",").map(s=>s.trim());
+   if(parts.length<3)throw new Error(`${i+1}行目：番号,英単語,日本語訳 の形式で入力してください。`);
+   const id=Number(parts.shift()),word=parts.shift(),meaning=parts.join(",");
+   if(!Number.isInteger(id)||id<1||!word||!meaning)throw new Error(`${i+1}行目：番号・英単語・日本語訳を確認してください。`);
+   if(ids.has(id))throw new Error(`${i+1}行目：単語番号 ${id} が重複しています。`);
+   ids.add(id);parsed.push({id,word,meaning});
+ }
+ if(parsed.length<4)throw new Error("4択クイズには最低4語必要です。");
+ if(new Set(parsed.map(w=>w.meaning)).size<4)throw new Error("4つの異なる日本語訳が必要です。");
+ return parsed;
+}
+$("nextBtn").addEventListener("click",()=>{if(reviewMode&&reviewQueue.length){reviewPos=(reviewPos+1)%reviewQueue.length}nextQuestion()});
+$("learnedBtn").addEventListener("click",learned);
+$("reviewBtn").addEventListener("click",startReview);
+$("shuffleBtn").addEventListener("click",newShuffle);
+$("resetBtn").addEventListener("click",()=>{if(confirm("正解数・回答数をリセットします。間違いリストと履歴は残ります。よろしいですか？"))resetStats()});
+$("historyBtn").addEventListener("click",()=>{$("historyPanel").classList.toggle("open");renderHistory()});
+$("closeHistoryBtn").addEventListener("click",()=>$("historyPanel").classList.remove("open"));
+$("clearHistoryBtn").addEventListener("click",()=>{if(confirm("学習履歴をすべて消去しますか？")){history=[];persistHistory();renderHistory()}});
+$("clearReviewBtn").addEventListener("click",()=>{if(confirm("間違い復習リストをすべて消去しますか？")){mistakes.clear();persistMistakes();renderReviewList();if(reviewMode){reviewQueue=[];nextQuestion()}}});
+$("closeReviewBtn").addEventListener("click",()=>$("reviewPanel").classList.remove("open"));
+$("loadDataBtn").addEventListener("click",()=>{
+ try{const parsed=parseData($("dataInput").value);words=parsed;save(KEYS.custom,words);reviewMode=false;mistakes=new Set([...mistakes].filter(id=>getWord(id)));persistMistakes();shuffleCycle();$("dataStatus").textContent=`${words.length}語を読み込みました。`;nextQuestion()}
+ catch(e){$("dataStatus").textContent=e.message}
+});
+$("demoBtn").addEventListener("click",()=>{words=DEMO.slice();try{localStorage.removeItem(KEYS.custom)}catch(e){}reviewMode=false;shuffleCycle();$("dataStatus").textContent="サンプルデータに戻しました。";nextQuestion()});
+$("themeBtn").addEventListener("click",()=>{
+ const dark=document.documentElement.dataset.theme!=="dark";
+ document.documentElement.dataset.theme=dark?"dark":"light";
+ $("themeBtn").textContent=dark?"ライト":"ダーク";
+});
+(function init(){
+ try {
+   loadSaved();
+   renderHistory();
+   renderReviewList();
+   shuffleCycle();
+   nextQuestion();
+   if(!storageOK)setStatus("保存機能が使えないため、この画面を開いている間のみデータを保持します。");
+ } catch (err) {
+   console.error("Quiz startup error:", err);
+   $("qnum").textContent = "起動時にエラーが発生しました";
+   $("word").textContent = "ページを再読み込みしてください";
+   $("choices").replaceChildren();
+   $("feedback").className = "feedback show bad";
+   $("feedback").textContent = "JavaScriptの起動に失敗しました。HTMLファイルを保存し直して、Safariで開き直してください。";
+   setStatus(String(err && err.message ? err.message : err));
+ }
+})();
+</script>
+</body>
+</html>
